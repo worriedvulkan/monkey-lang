@@ -1,0 +1,22 @@
+[*.{fs,fsx,test.fs}]
+max_line_length=100
+fsharp_space_before_uppercase_invocation=true
+fsharp_space_before_member=true
+fsharp_space_before_colon=true
+fsharp_space_before_semicolon=true
+fsharp_max_function_binding_width=80
+fsharp_multiline_block_brackets_on_same_column=true
+fsharp_align_function_signature_to_indentation=true
+fsharp_alternative_long_member_definitions=true
+fsharp_multi_line_lambda_closing_newline=true
+fsharp_experimental_keep_indent_in_branch=true
+fsharp_bar_before_discriminated_union_declaration=true
+fsharp_experimental_stroustrup_style=true
+fsharp_max_if_then_else_short_width=80
+fsharp_max_array_or_list_width=120
+fsharp_max_function_binding_width=100
+fsharp_max_dot_get_expression_width=100
+fsharp_max_record_width = 80
+fsharp_max_record_number_of_items = 3
+fsharp_max_array_or_list_width = 100
+fsharp_max_array_or_list_number_of_items = 3
