@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Monkey.Interpreter", "Monkey.Interpreter\Monkey.Interpreter.fsproj", "{13197E11-E2CE-4EAD-AE39-C978DEFB5873}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Monkey.Interpreter.Tests", "Monkey.Interpreter.Tests\Monkey.Interpreter.Tests.fsproj", "{93617A9F-FD5B-460E-86FD-9A639F860F78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13197E11-E2CE-4EAD-AE39-C978DEFB5873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13197E11-E2CE-4EAD-AE39-C978DEFB5873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13197E11-E2CE-4EAD-AE39-C978DEFB5873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13197E11-E2CE-4EAD-AE39-C978DEFB5873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93617A9F-FD5B-460E-86FD-9A639F860F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93617A9F-FD5B-460E-86FD-9A639F860F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93617A9F-FD5B-460E-86FD-9A639F860F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93617A9F-FD5B-460E-86FD-9A639F860F78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
