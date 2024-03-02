@@ -1,2 +1,2 @@
 # monkey-lang
-Implementation of Writing Interpreter in Go.
+Implementation for `Writing Interpreter in Go` in F#.
