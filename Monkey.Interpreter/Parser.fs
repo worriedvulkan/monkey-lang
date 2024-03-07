@@ -2,7 +2,14 @@ namespace Monkey.Interpreter
 
 open System.Collections.Generic
 
-type Parser = { Lexer : Lexer ; CurToken : Token ; PeekToken : Token ; Errors : List<string> }
+type Parser = {
+    Lexer : Lexer
+    CurToken : Token
+    PeekToken : Token
+    Errors : List<string>
+    PrefixParseFns : Map<TokenType, Parser -> Ast.Expression * Parser>
+    InfixParseFns : Map<TokenType, Ast.Expression -> Parser -> Ast.Expression * Parser>
+}
 
 module Parser =
 
@@ -22,6 +29,8 @@ module Parser =
             CurToken = Lexer.makeToken TokenType.Illegal ""
             PeekToken = Lexer.makeToken TokenType.Illegal ""
             Errors = List<string> ()
+            PrefixParseFns = Map[]
+            InfixParseFns = Map [] 
         }
         |> nextToken
         |> nextToken

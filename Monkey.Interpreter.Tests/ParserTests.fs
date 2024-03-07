@@ -89,3 +89,21 @@ let ``Return Statements`` () =
                 "Stmt is not Ast.Expression.Return. Got={0}",
                 Ast.statementTokenLiteral stmt
             )
+
+[<Test>]
+let ``Identifier Expression`` () =
+    let input = "foobar;"
+    let lexer = Lexer.init input
+    let parser = Parser.init lexer
+    let program, parser = Parser.parseProgram parser
+    checkParserErrors parser
+
+    if program.Statements.Count <> 1 then
+        Assert.Fail (
+            "Program.Statements does not contain 1 statement. Got={0}",
+            program.Statements.Count
+        )
+    
+    let (Ast.Statement.Expression exprStmt) = program.Statements[0]
+    ()
+    
