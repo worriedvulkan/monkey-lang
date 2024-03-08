@@ -11,16 +11,15 @@ let ``Program to String`` () =
     let stmts = List<Ast.Statement> ()
 
     stmts.Add (
-        Ast.Statement.Let
-            {
-                Token = { Type = TokenType.Let ; Literal = "let" }
-                Name = { Token = { Type = TokenType.Ident ; Literal = "myVar" } ; Value = "myVar" }
-                Value =
-                    Ast.Expression.Ident {
-                        Token = { Type = TokenType.Ident ; Literal = "anotherVar" }
-                        Value = "anotherVar"
-                    }
-            }
+        Ast.Statement.Let {
+            Token = { Type = TokenType.Let ; Literal = "let" }
+            Name = { Token = { Type = TokenType.Ident ; Literal = "myVar" } ; Value = "myVar" }
+            Value =
+                Ast.Expression.Ident {
+                    Token = { Type = TokenType.Ident ; Literal = "anotherVar" }
+                    Value = "anotherVar"
+                }
+        }
     )
 
     let program : Ast.Program = { Statements = stmts }

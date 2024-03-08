@@ -10,11 +10,11 @@ type Expression =
     | Prefix of PrefixExpr
     | Infix of InfixExpr
     | Empty
-    
+
 and Identifier = { Token : Token ; Value : string }
 and Integer = { Token : Token ; Value : int }
-and PrefixExpr = {Token: Token; Operator: string; Right: Expression}
-and InfixExpr = {Token: Token; Left: Expression; Operator: string; Right: Expression}
+and PrefixExpr = { Token : Token ; Operator : string ; Right : Expression }
+and InfixExpr = { Token : Token ; Left : Expression ; Operator : string ; Right : Expression }
 
 [<RequireQualifiedAccess>]
 type Statement =
@@ -47,15 +47,13 @@ let rec expressionToString (expr : Expression) =
     | Expression.Empty -> ""
     | Expression.Ident ident -> ident.Value
     | Expression.Int num -> num.Value.ToString ()
-    | Expression.Prefix pre -> 
-        "(" 
-        + pre.Operator 
-        + expressionToString pre.Right 
-        + ")"
+    | Expression.Prefix pre -> "(" + pre.Operator + expressionToString pre.Right + ")"
     | Expression.Infix infix ->
         "("
         + expressionToString infix.Left
-        + " " + infix.Operator + " "
+        + " "
+        + infix.Operator
+        + " "
         + expressionToString infix.Right
         + ")"
 
@@ -73,10 +71,8 @@ let statementToString (stmt : Statement) =
         + " "
         + (expressionToString returnStmt.ReturnValue)
         + ";"
-    | Statement.Expr exprStmt -> 
-        exprStmt.ChildExpr 
-        |> Option.map expressionToString 
-        |> Option.defaultValue ""
+    | Statement.Expr exprStmt ->
+        exprStmt.ChildExpr |> Option.map expressionToString |> Option.defaultValue ""
 
 let programToString (program : Program) =
     let builder = StringBuilder ()
