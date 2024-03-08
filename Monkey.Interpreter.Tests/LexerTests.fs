@@ -1,6 +1,7 @@
 module Monkey.Interpreter.Tests.LexerTests
 
 open NUnit.Framework
+open NUnit.Framework.Legacy
 open Monkey.Interpreter
 
 type private TestCase = { Input : string ; Expected : {| Tt : TokenType ; Literal : string |} list }
@@ -90,6 +91,7 @@ let private ifDeclaration = {
 }
 
 [<Test>]
+[<Parallelizable>]
 let ``Next Token`` () =
     let testCases = [symbols ; letDeclaration; functionDeclaration; ifDeclaration]
 
@@ -100,7 +102,7 @@ let ``Next Token`` () =
             lexer <- Lexer.nextToken lexer
             let expected = bag.Expected[i]
 
-            Assert.AreEqual (
+            ClassicAssert.AreEqual (
                 expected.Tt,
                 lexer.LastToken.Type,
                 "Tests{0} - TokenType Wrong. Expected={1}, Got={2}",
@@ -108,8 +110,8 @@ let ``Next Token`` () =
                 expected.Tt,
                 lexer.LastToken.Type
             )
-            
-            Assert.AreEqual (
+
+            ClassicAssert.AreEqual (
                 expected.Literal,
                 lexer.LastToken.Literal,
                 "Tests{0} - Literal Wrong. Expected={1}, Got={2}",

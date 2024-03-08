@@ -1,12 +1,11 @@
 namespace Monkey.Interpreter
 
-type Lexer = {
-    Position : int
-    ReadPosition : int
-    Input : string
-    Ch : char
-    LastToken : Token
-}
+type Lexer =
+    { Position : int
+      ReadPosition : int
+      Input : string
+      Ch : char
+      LastToken : Token }
 
 module Lexer =
 
@@ -25,8 +24,7 @@ module Lexer =
         { l with
             Ch = ch
             Position = l.ReadPosition
-            ReadPosition = l.ReadPosition + 1
-        }
+            ReadPosition = l.ReadPosition + 1 }
 
     let peekChar (l : Lexer) : char =
         if l.ReadPosition >= l.Input.Length then '\x00' else l.Input[l.ReadPosition]
@@ -46,13 +44,11 @@ module Lexer =
 
     let init (input : string) : Lexer =
         readChar
-            {
-                Ch = '\x00'
-                Input = input
-                Position = 0
-                ReadPosition = 0
-                LastToken = { Type = TokenType.Illegal ; Literal = "\x00" }
-            }
+            { Ch = '\x00'
+              Input = input
+              Position = 0
+              ReadPosition = 0
+              LastToken = { Type = TokenType.Illegal ; Literal = "\x00" } }
 
     let rec skipWhitespace (l : Lexer) =
         if Char.IsWhiteSpace l.Ch then skipWhitespace (readChar l) else l
@@ -75,7 +71,7 @@ module Lexer =
                 readChar { l with LastToken = makeToken TokenType.Equal "==" }
             else
                 readChar { l with LastToken = makeToken TokenType.Assign "=" }
-        | '!' -> 
+        | '!' ->
             if (peekChar l) = '=' then
                 let l = readChar l
                 readChar { l with LastToken = makeToken TokenType.NotEqual "!=" }

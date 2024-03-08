@@ -1,10 +1,12 @@
 module Monkey.Interpreter.Tests.AstTests
 
 open NUnit.Framework
+open NUnit.Framework.Legacy
 open Monkey.Interpreter
 open System.Collections.Generic
 
 [<Test>]
+[<Parallelizable>]
 let ``Program to String`` () =
     let stmts = List<Ast.Statement> ()
 
@@ -14,7 +16,7 @@ let ``Program to String`` () =
                 Token = { Type = TokenType.Let ; Literal = "let" }
                 Name = { Token = { Type = TokenType.Ident ; Literal = "myVar" } ; Value = "myVar" }
                 Value =
-                    Ast.Expression.Identifier {
+                    Ast.Expression.Ident {
                         Token = { Type = TokenType.Ident ; Literal = "anotherVar" }
                         Value = "anotherVar"
                     }
@@ -22,4 +24,4 @@ let ``Program to String`` () =
     )
 
     let program : Ast.Program = { Statements = stmts }
-    Assert.AreEqual(Ast.programToString program, "let myVar = anotherVar;")
+    ClassicAssert.AreEqual (Ast.programToString program, "let myVar = anotherVar;")

@@ -42,6 +42,9 @@ type TokenType =
     
 
 type Token = {Type: TokenType; Literal: string} 
+    with
+        override this.ToString () = 
+            $"{{Type: {this.Type}; Literal: '{this.Literal}' }}"
 
 module Token =
     let private keywords = Map [
