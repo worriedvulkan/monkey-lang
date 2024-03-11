@@ -33,6 +33,7 @@ module Parser =
             TokenType.Minus, OpPrecedence.Sum
             TokenType.Divide, OpPrecedence.Product
             TokenType.Multiply, OpPrecedence.Product
+            TokenType.LeftParen, OpPrecedence.Call
         ]
 
     let curTokenIs (t : TokenType) (p : Parser) = p.CurToken.Type = t
@@ -46,20 +47,23 @@ module Parser =
     let curPrecedence (p : Parser) =
         precedences.TryFind (p.CurToken.Type) |> Option.defaultValue OpPrecedence.Lowest
 
-    let nextToken (p : Parser) = {
-        p with
-            CurToken = p.PeekToken
-            PeekToken = (Lexer.nextToken p.Lexer).LastToken
-    }
+    let nextToken (p : Parser) =
+        let lexer = Lexer.nextToken p.Lexer
 
-
-    let expectPeek (t : TokenType) (p : Parser) =
-        if peekTokenIs t p then true, (nextToken p) else false, (nextToken p)
+        { p with CurToken = p.PeekToken ; PeekToken = lexer.LastToken ; Lexer = lexer }
 
     let peekError (t : TokenType) (p : Parser) =
         p.Errors.Add ($"Expected next token to be %A{t}, got %A{p.PeekToken.Type} instead")
 
-    let rec loopUntil (tok : TokenType) (p : Parser) = if curTokenIs tok p then nextToken p else p
+    let expectPeek (t : TokenType) (p : Parser) =
+        if peekTokenIs t p then
+            true, (nextToken p)
+        else
+            peekError t p
+            false, p
+
+    let rec loopUntil (tok : TokenType) (p : Parser) =
+        if curTokenIs tok p then loopUntil tok (nextToken p) else p
 
     let parseExpression (precedence : OpPrecedence) (p : Parser) : Ast.Expression option * Parser =
         let prefix = p.PrefixParseFns.TryFind p.CurToken.Type
@@ -70,6 +74,18 @@ module Parser =
             None, p
         | Some fn ->
             let leftExpr, p = fn p
+
+            let rec loopUntil (expr : Ast.Expression) (p : Parser) =
+                if peekTokenIs TokenType.SemiColon p = false && precedence < peekPrecedence p then
+                    match p.InfixParseFns.TryFind p.CurToken.Type with
+                    | None -> expr, p
+                    | Some fn ->
+                        let p = nextToken p
+                        let expr, p = fn expr p
+                        loopUntil expr, p
+                else
+                    expr, p
+
             leftExpr, p
 
     let parseIdentifier (p : Parser) =
@@ -143,9 +159,24 @@ module Parser =
 
     let init (l : Lexer) : Parser =
         let prefixMap =
-            Map [ TokenType.Ident, parseIdentifier ; TokenType.Int, parseIntegerLiteral ]
+            Map [
+                TokenType.Ident, parseIdentifier
+                TokenType.Int, parseIntegerLiteral
+                TokenType.Bang, parsePrefixExpression
+                TokenType.Minus, parsePrefixExpression
+            ]
 
-        let infixMap = Map [ TokenType.Add, parseInfixExpression ]
+        let infixMap =
+            Map [
+                TokenType.Add, parseInfixExpression
+                TokenType.Minus, parseInfixExpression
+                TokenType.Divide, parseInfixExpression
+                TokenType.Multiply, parseInfixExpression
+                TokenType.Equal, parseInfixExpression
+                TokenType.NotEqual, parseInfixExpression
+                TokenType.LessThan, parseInfixExpression
+                TokenType.GreaterThan, parseInfixExpression
+            ]
 
         {
             Lexer = l
@@ -153,7 +184,7 @@ module Parser =
             PeekToken = Lexer.makeToken TokenType.Illegal ""
             Errors = List<string> ()
             PrefixParseFns = prefixMap
-            InfixParseFns = Map []
+            InfixParseFns = infixMap
         }
         |> nextToken
         |> nextToken
