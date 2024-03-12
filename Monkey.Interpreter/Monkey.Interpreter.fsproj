@@ -14,5 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="../.editorconfig" />
+    <Compile Include="ParserClass.fs" />
   </ItemGroup>
 </Project>
